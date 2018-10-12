@@ -47,8 +47,8 @@ function statusUpdate() {
     const oReq = new XMLHttpRequest();
     oReq.addEventListener("load", (response) => {
         // this will not execute until the response is done
-        const data = JSON.parse(oReq.responseText);
-        console.log(data);
+        //const data = JSON.parse(oReq.responseText);
+        //console.log(data);
         // selects elements by id from the document tree
         document.getElementById('output').innerHTML = oReq.responseText;
     });
