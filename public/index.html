@@ -2,11 +2,26 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>HTML Demo</title>
+  <title>Coinflip Demo</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+
+  </style>
 </head>
 
 <body>
-  <script src="script.js"></script>
+  <div id="wrapper"> 
+    <header class="banner">
+      The humidity in some random city in AK is <span id="humidity"></span>
+    </header>
+    <div class="widget">
+      <h1>Coin Flipper</h1>
+      <div id="output" class="output">
+      </div>
+      <button onclick="pushCoinNum()">Flip</button>
+    </div>
+  </div>
+  <script src="script.js">
+  </script>
 </body>
 </html>

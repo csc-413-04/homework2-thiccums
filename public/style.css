@@ -1,0 +1,56 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    background-color: #03A9F4;
+}
+
+/* Use # for id selectors*/
+#wrapper {
+    width: 100%;
+    height: 100%;
+    padding: 60px 0 0 0;
+}
+
+.widget {
+    background-color: chartreuse;
+    width: 400px;
+    margin: 0 auto 0 auto;
+    padding: 20px;
+}
+
+.widget h1 {
+    font-family: sans-serif;
+    text-align: center;
+}
+
+.widget button {
+    border: none;
+    width: 100%;
+    padding: 20px;
+    margin: 10px 0 0 0;
+    background-color: red;
+    font-size: 20px;
+    font-weight: bolder;
+}
+
+.output {
+    background: white;
+    text-align: center;
+    font-size: 100px;
+    font-family: cursive;
+}
+
+.banner {
+    background: white;
+    padding: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+}
