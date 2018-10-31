@@ -1,41 +1,62 @@
 package main.java;
+import javax.swing.text.html.HTMLDocument;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 
-import org.bson.types.ObjectId;
-import org.mongodb.morphia.annotations.Entity;
-import org.mongodb.morphia.annotations.Id;
-
-@Entity
-public class User{
-    @Id
-    private ObjectId id;
+public class User {
     private String username;
     private String password;
+    private HashSet<User> friends;
 
-    // just some getters and setters
-    
-    public User(){
-    }
-    public User(String username, String password){
-        super();
+    public User(String username, String password) {
         this.username = username;
         this.password = password;
+        friends = new HashSet<User>();
     }
-    public ObjectId getId() {
-		return id;
-	}
-	public void setId(ObjectId id) {
-		this.id = id;
-	}
-	public String getUser() {
-		return username;
-	}
-	public void setUser(String username) {
-		this.username = username;
-	}
-	public String getPass() {
-		return password;
-	}
-	public void setPass(String password) {
-		this.password = password;
-	}
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public HashSet<User> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(HashSet<User> friends) {
+        this.friends = friends;
+    }
+
+    public void addfriend(User user ){
+
+    }
+
+    public String allfriends(){
+        return friends.toString();
+
+    }
+
+    public boolean passwordVal(String pw){
+
+        if( pw== this.password){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 }
+
+
