@@ -123,7 +123,7 @@ public class Main {
           Document tokenUser = users.find(eq("username", user)).first();
 
           if(tokenUser != null){
-             return tokenUser.get("friends").toString();
+             return "List of " + tokenUser.getString("username")+"'s friends: " + tokenUser.get("friends").toString();
           }
           else{
               return "failed_authentication";
