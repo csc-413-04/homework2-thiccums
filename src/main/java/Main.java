@@ -1,13 +1,15 @@
 package main.java;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.MongoClient;
+import com.mongodb.*;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoCollection;
+import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 import org.bson.Document;
 
@@ -39,6 +41,7 @@ public class Main {
       // calling get will make your app start listening for the GET path with the /hello endpoint
       get("/hello", (req, res) -> "Hello World");
 
+      // /login?username=<username>&password=<pass>
       get("/login", (req, res) -> {
           String username = req.queryParams("username");
           String password = req.queryParams("password");
@@ -46,6 +49,8 @@ public class Main {
 
 
           Document search = users.find(eq("username", username)).first();
+          String token = search.get("_id").toString();
+
           long temp = new Date().getTime();
           Timestamp stamp = new Timestamp(temp);
           long time = stamp.getTime();
@@ -59,10 +64,9 @@ public class Main {
 
               System.out.print(password + " " + userPassword);
               if (password.equalsIgnoreCase(userPassword)) {
-                  Object token = search.get("_id");
-                  Document authorize = new Document("token", token).append("user", username).append("time", date);
+                  Document authorize = new Document("token", token).append("user", username).append("date", date);
                   auth.insertOne(authorize);
-                  return "Token: " + date;
+                  return "Token: " + token;
               } else {
                   return "password_incorrect";
               }
@@ -80,8 +84,9 @@ public class Main {
 
           String username = req.queryParams("username");
           String password = req.queryParams("password");
+          ArrayList friends = new ArrayList();
 
-          Document newUser = new Document("username", username).append("password", password);
+          Document newUser = new Document("username", username).append("password", password).append("friends", friends);
           users.insertOne(newUser);
           return "okay";
 
@@ -89,24 +94,43 @@ public class Main {
 
       });
 
+      // /addfriend?token=<token>&friend=<friendsuserid>
       get("/addfriend", (req, res) -> {
           String token = req.queryParams("token");
-          ObjectId searchToken = new ObjectId(token);
-          Document search = users.find(eq("", searchToken )).first();
-          if(search != null){
+          String friend = req.queryParams("friend");
+
+          Document searchToken = auth.find(eq("token", token )).first();
+          Document searchUser = users.find(eq("username", friend)).first();
+
+          if(searchToken != null && searchUser != null){
+
+              String user = searchToken.getString("user");
+              Document tokenUser = users.find(eq("username", user)).first();
+              Bson document = new Document ("username", tokenUser.get("username"));
+              Bson add = new Document("friends", friend);
+              Bson updateDoc = new Document("$push", add);
+              users.updateOne(document, updateDoc);
+
               return "okay";
           }
           return "failed_authentication";
       });
 
       get("/friends", (req, res) -> {
-          HashSet<String> allFriends = new HashSet<String>();
           String token = req.queryParams("token");
-          ObjectId searchToken = new ObjectId(token);
-          Document search = users.find(eq("_id", searchToken)).first();
-          
+          Document searchToken = auth.find(eq("token", token)).first();
+          String user = searchToken.getString("user");
+          Document tokenUser = users.find(eq("username", user)).first();
 
-            return "listoffriendsuserid";
+          if(tokenUser != null){
+             return tokenUser.get("friends").toString();
+          }
+          else{
+              return "failed_authentication";
+          }
+
+
+
       });
 
 
