@@ -6,8 +6,9 @@ import org.mongodb.morphia.annotations.Id;
 
 @Entity
 public class User{
+    private static final String USER_SESSION_ID = "sessionId";
     @Id
-    private ObjectId id;
+    
     private String username;
     private String password;
 
@@ -20,17 +21,18 @@ public class User{
         this.username = username;
         this.password = password;
     }
-    public String getUser() {
-        return username;
+	public String getUsername() {
+		return username;
+	}
+	public void setUsename(String username) {
+		this.username = username;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
     }
-    public void setUser(String username) {
-        this.username = username;
-    }
-    public String getPass() {
-        return password;
-    }
-    public void setPass(String password) {
-        this.password = password;
-    }
+    
+    
 }
-

@@ -21,7 +21,7 @@ public class Main {
 
         MongoDatabase db = mongoClient.getDatabase("REST2");
         MongoCollection<Document> users = db.getCollection("users");
-        MongoCollection <Document> auth = db.getCollection("auth");
+        MongoCollection<Document> auth = db.getCollection("auth");
 
         port(1234);
         // calling get will make your app start listening for the GET path with the /hello endpoint
@@ -34,9 +34,14 @@ public class Main {
             Document lookup = users.find(eq("username", username)).first();
             String token = lookup.get("_id").toString();
 
+            long temp = new Date().getTime();
+            Timestamp stamp = new Timestamp(temp);
+            long t1 = stamp.getTime();
+            Date t2 = new Date(time);
+
             String userPassword = lookup.getString(("password"));
             if (password.equalsIgnoreCase(userPassword)) {
-                Document loginAuth = new Document("token", token).append("user", username);
+                Document loginAuth = new Document("token", token).append("user", username).append("timestamp", t2);
                 auth.insertOne(loginAuth);
                 return "Token: " + token;
             }
