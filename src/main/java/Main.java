@@ -27,7 +27,6 @@ public class Main {
         // calling get will make your app start listening for the GET path with the /hello endpoint
         get("/hello", (req, res) -> "Hello World");
 
-
         get("/login", (req, res) -> {
             String username = req.queryParams("username");
             String password = req.queryParams("password");
@@ -63,8 +62,6 @@ public class Main {
         //okay
         ///newuser?username=<anotheruser>&password=<pass>
         //okay
-
-
 
 
         get("/addfriend", (req, res) -> {
